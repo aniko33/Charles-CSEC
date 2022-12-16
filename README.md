@@ -1,25 +1,25 @@
 <div align="center">
   <h1>Charles CSEC (Beta)</h1>
-  <img src="/home/aniko/Downloads/New Project.png">
+  <img src="https://user-images.githubusercontent.com/76649588/208201214-add50e06-c0da-4e2d-ba87-d33c797d035b.png">
 </div>
 
 ## Index
 
-- Features
+- [Features](#features)
 
-- Installation
+- [Installation](#installation)
   
-  - From source code
+  - [From source code](#from-source-code)
 
-- Configuration (server-side)
+- [Configuration (server-side)](#configuration)
 
-- Running
+- [Running](#running)
 
-- How work
+- [How work](#how-work)
 
-- License
+- [License](#license)
 
-- Contributors
+- [Contributors](#contributors)
 
 ## Features
 
@@ -98,7 +98,9 @@ python server.py
 The **keys are created *by the server*** and ***distributes them to connected clients***.
 when the client wants to send a message, **it encrypts it with the *public key***, passes through the ***server and sends it to the clients***, who **decrypt it with the *private key***.
 
-<img src="file:///home/aniko/Downloads/flow.png" title="" alt="flow.png" data-align="center">
+<div align="center">
+<img width="800px" src="https://user-images.githubusercontent.com/76649588/208201163-7e596078-c95d-4902-8d94-e496b60fe315.png" title="" alt="flow.png" data-align="center">
+</div>
 
 ## License
 
