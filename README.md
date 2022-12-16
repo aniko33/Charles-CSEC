@@ -17,6 +17,8 @@
 
 - [How work](#how-work)
 
+- [Bug report](#bug-report)
+
 - [License](#license)
 
 - [Contributors](#contributors)
@@ -101,6 +103,10 @@ when the client wants to send a message, **it encrypts it with the *public key**
 <div align="center">
 <img width="800px" src="https://user-images.githubusercontent.com/76649588/208201163-7e596078-c95d-4902-8d94-e496b60fe315.png" title="" alt="flow.png" data-align="center">
 </div>
+
+## Bug report
+
+If you want to ***report an exploit or a bug write*** it on [issues](https://github.com/aniko33/Charles-CSEC/issues)
 
 ## License
 
