@@ -35,7 +35,7 @@
 
 ### From source code
 
-You need to have [**Python**](https://www.python.org/downloads/) and [**PIP**]([Python PIP](https://www.w3schools.com/python/python_pip.asp)) installed which you can download from your [**package manager**]([How to install Python on Linux? - GeeksforGeeks](https://www.geeksforgeeks.org/how-to-install-python-on-linux/)) or site.
+You need to have **[Python](https://www.python.org/downloads/)** and **[PIP](https://www.w3schools.com/python/python_pip.asp)** installed which you can download from your [**package manager**](https://www.geeksforgeeks.org/how-to-install-python-on-linux/) or site.
 
 After installing Python and PIP you can install ***program dependencies***.
 You can ***go to the directory of the repository that you will have downloaded or download it*** with this command:
