@@ -1,5 +1,6 @@
 <div align="center">
   <h1>Charles CSEC (Beta)</h1>
+  <h2>V0.2 Beta</h2>
   <img src="https://user-images.githubusercontent.com/76649588/208201214-add50e06-c0da-4e2d-ba87-d33c797d035b.png">
 </div>
 
@@ -56,28 +57,25 @@ You ***have installed the various dependencies*** now you **can configure your s
 
 ## Configuration
 
-To configure your server **open the file named *server.py***.
+To configure your server, **open the *config.json* file in the following path: *server/config.json***.
 
 Go to the top of code until you find this part:
 
-```python
-#vars
-welcome_message = "[red]Welcome to <chat name>[/red]"
-clients = []
-username = {}
-buffer = 1024
-
-#config
-ip = "127.0.0.1"
-port = 8889
+```json
+{
+    "ip": "127.0.0.1",
+    "port": 8889,
+    "buffer": 1024,
+    "welcome_message": "[red]welcome to <chat name>[/red]"
+}
 ```
 
 | Variable        | Description                                                                                                                                       |
 | --------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
-| welcome_message | Welcome message to new users, the colors can be found in the **[Rich documentation](https://rich.readthedocs.io/en/stable/appendix/colors.html)** |
-| buffer          | It is the maximum network buffer, if you change this value the ***RSA key*** will ***increase in size***                                          |
 | ip              | The IP address where the server will start waiting for connections                                                                                |
 | port            | It is the **connection port**, it is recommended to ***keep it as the default*** (***8889***)                                                     |
+| buffer          | It is the maximum network buffer, if you change this value the ***RSA key*** will ***increase in size***                                          |
+| welcome_message | Welcome message to new users, the colors can be found in the **[Rich documentation](https://rich.readthedocs.io/en/stable/appendix/colors.html)** |
 
 ## Running
 
@@ -86,13 +84,13 @@ To start the program just ***go to the program folder*** and execute this comman
 #### Client
 
 ```bash
-python client.py
+cd client && python main.py
 ```
 
 #### Server
 
 ```bash
-python server.py
+cd server && python main.py
 ```
 
 ## How work
