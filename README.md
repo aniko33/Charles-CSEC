@@ -112,7 +112,7 @@ If you want to ***report an exploit or a bug write*** it on [issues](https://git
 
 ## License
 
-The library is distributed under the ***[GPL](https://it.wikipedia.org/wiki/GNU_General_Public_License) license*** you can ***consult the file***: ***[License.txt](License.txt)***
+The library is distributed under the ***[GPL](https://it.wikipedia.org/wiki/GNU_General_Public_License) license*** you can ***consult the file***: ***[LICENSE.txt](LICENSE.txt)***
 
 ## Contributors
 
