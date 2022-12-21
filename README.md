@@ -25,7 +25,7 @@
 - [License](#license)
 
 - [Contributors](#contributors)
-<br><br>
+
 
 # Features
 
@@ -37,8 +37,6 @@
 
 - No trace of your IP
 
-<br>
-
 # Installation
 
 ### From source code
@@ -49,18 +47,16 @@ After installing Python and PIP you need to install ***program dependencies***.
 You can  with this command:
 
 ```bash
-git clone https://github.com/aniko33/Charles-CSEC; cd Charles-CSEC
+git clone https://github.com/aniko33/Charles-CSEC && cd Charles-CSEC
 ```
 
 Then, you will need to install python dependencies:
 ```bash
-python -m pip install -r requirements.txt
+pip install -r requirements.txt
 ```
 
 
 After you ***installed the various dependencies***, now you **can customise your configurations your server or start your client**.
-
-<br>
 
 # Configuration
 
@@ -84,8 +80,6 @@ Scroll to the top and edit this part:
 | buffer          | The maximum network buffer, changes in this value affects the ***RSA key lenght***                                          |
 | welcome_message | Welcome message to new users, the colors can be found in the **[Rich documentation](https://rich.readthedocs.io/en/stable/appendix/colors.html)** |
 
-<br>
-
 # Running
 
 To run the program just ***go to the main folder*** and execute this command:
@@ -93,15 +87,14 @@ To run the program just ***go to the main folder*** and execute this command:
 #### Client
 
 ```bash
-cd client; python main.py
+cd client && python main.py
 ```
 
 #### Server
 
 ```bash
-cd server; python main.py
+cd server && python main.py
 ```
-<br>
 
 # How does it work
 
@@ -114,13 +107,9 @@ For more detailed explanation, please, refer to the [RSA Encryption Algorithm Do
 <img width="800px" src="https://user-images.githubusercontent.com/76649588/208201163-7e596078-c95d-4902-8d94-e496b60fe315.png" title="" alt="flow.png" data-align="center">
 </div>
 
-<br>
-
 # Bug report
 
-### **To report an exploit or a bug write**, create a [new issue](https://github.com/aniko33/Charles-CSEC/issues)
-
-<br>
+**To report an exploit or a bug write**, create a [new issue](https://github.com/aniko33/Charles-CSEC/issues)
 
 # License
 
