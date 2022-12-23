@@ -1,11 +1,11 @@
 <div align="center">
   <h1>Charles CSEC</h1>
-  
+
   [![Version](https://img.shields.io/badge/Version-1.0-success)](https://github.com/aniko33/Charles-CSEC/releases)
   [![Platform](https://img.shields.io/badge/Platform-Windows%2C%20Mac%2C%20Linux-blue)](#)
   [![Python_version](https://img.shields.io/badge/Python%20version-3.10-blueviolet)](#)
-  
-  <img src="https://user-images.githubusercontent.com/76649588/208201214-add50e06-c0da-4e2d-ba87-d33c797d035b.png">
+
+<img src="https://user-images.githubusercontent.com/76649588/208201214-add50e06-c0da-4e2d-ba87-d33c797d035b.png">
 </div>
 
 # Index
@@ -25,7 +25,6 @@
 - [License](#license)
 
 - [Contributors](#contributors)
-
 
 # Features
 
@@ -51,12 +50,20 @@ git clone https://github.com/aniko33/Charles-CSEC && cd Charles-CSEC
 ```
 
 Then, you will need to install python dependencies:
+
 ```bash
 pip install -r requirements.txt
 ```
 
-
 After you ***installed the various dependencies***, now you **can customise your configurations your server or start your client**.
+
+### From the compiled version
+
+You have to **go to the [latest releases](https://github.com/aniko33/Charles-CSEC/releases/tag/1.x)** and you have to ***download the client or the server depending*** on what you want to do.
+
+#### Important note
+
+If you have installed the **server version**, **create a file named *config.json*** and set the [default configurations](https://github.com/aniko33/Charles-CSEC/blob/main/server/config.json).
 
 # Configuration
 
@@ -75,9 +82,9 @@ Scroll to the top and edit this part:
 
 | Variable        | Description                                                                                                                                       |
 | --------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
-| ip              | The IP address where the server will start listening for connections                                                                                |
-| port            | The **connection port**, it is recommended to ***keep it default*** (***8889***)                                                     |
-| buffer          | The maximum network buffer, changes in this value affects the ***RSA key lenght***                                          |
+| ip              | The IP address where the server will start listening for connections                                                                              |
+| port            | The **connection port**, it is recommended to ***keep it default*** (***8889***)                                                                  |
+| buffer          | The maximum network buffer, changes in this value affects the ***RSA key lenght***                                                                |
 | welcome_message | Welcome message to new users, the colors can be found in the **[Rich documentation](https://rich.readthedocs.io/en/stable/appendix/colors.html)** |
 
 # Running
