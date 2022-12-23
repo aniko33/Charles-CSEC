@@ -163,27 +163,44 @@ class Chat:
 
     def remove_client(self, client):
         print("[[yellow]?[/yellow]] Client disconnected")
+
         index = clients.index(client)
+        # Remove from list
         clients.remove(client)
+        # Get username from socket
         nickname = nicknames[index]
+
         self.send_to_clients(self.rsa_api.encrypt(
             f"[green]{nickname}[/green] has left."))
+
+        # Remove nickname
         nicknames.remove(nickname)
 
     def middle(self):
         index = clients.index(self.client)
         nickname = nicknames[index]
         self.joined(nickname)
+
         while True:
             try:
                 msg = self.client.recv(buffer)
+
+                # If the length of the message is zero or content is "exit"
+                # Remove client connection
+
+                if msg == b"/exit" or len(msg) <= 0:
+                    self.remove_client(self.client)
+                    break
+
                 self.send_to_clients(msg)
+
             except BaseException:
                 self.remove_client(self.client)
                 break
 
     def run(self):
         API.send_buffer(self.client, buffer)
+        time.sleep(0.5)
         send_keys = API.Send_keys(
             self.public_key,
             self.private_key,
@@ -195,6 +212,8 @@ class Chat:
         send_keys.public()
         time.sleep(0.5)
         send_keys.private()
+        time.sleep(0.5)
+
         # Encrypt welcome_message and send to client
         self.welcome_message(self.rsa_api.encrypt(welcome_message))
         self.middle()
@@ -206,23 +225,46 @@ class Main:
         It will generate keys and wait for connections
     """
     def run():
+        username_exist = False
+
         print(f"[[magenta]*[/magenta]] Buffer: {buffer}")
+
         print("[[cyan]+[/cyan]] RSA key generation...")
         public_key, private_key = API.create_keys(buffer)
         print("[[cyan]+[/cyan]] RSA key generated")
+
         while True:
             client, addr = server.accept()
-            print("[[yellow]?[/yellow]] Client connected")
 
             nickname = client.recv(buffer).decode()
-            nicknames.append(nickname)
 
-            clients.append(client)
+            # Check username existing
 
-            chat = Chat(client, private_key, public_key)
+            for list_nickname in nicknames:
+                # If username_exist == False
+                if not username_exist:
+                    if nickname == list_nickname:
+                        username_exist = True
 
-            multi_conn = Thread(target=chat.run)
-            multi_conn.start()
+            # If username_exist == False
+            if not username_exist:
+                # Send message: "accepted" to client
+                client.send("/accepted".encode())
+                print("[[yellow]?[/yellow]] Client connected")
+
+                nicknames.append(nickname)
+                clients.append(client)
+
+                chat = Chat(client, private_key, public_key)
+
+                multi_conn = Thread(target=chat.run)
+                multi_conn.start()
+            else:
+                # Send message: "exit" to client
+                client.send("/exit".encode())
+                client.close()
+                # Reset username_exist
+                username_exist = False
 
 
 if __name__ == "__main__":
