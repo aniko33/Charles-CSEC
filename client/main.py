@@ -2,6 +2,7 @@ import sys
 import os
 import socket
 import rsa
+import time
 import zlib
 import random
 import threading
@@ -134,15 +135,25 @@ class UI:
 """, "center"))
 
     def get_server(self):
+
         server_ip = console.input(
             "[b]Insert server address[/b] [purple]>>[/purple] ")
+
         server_port = int(
             console.input("[b]Insert server port[/b] [purple]>>[/purple] "))
+
+        # If server_ip == "local"... change server_ip to 127.0.0.1
+
+        match server_ip:
+            case "local" | "localhost" | "::1":
+                server_ip = "127.0.0.1"
+
         return server_ip, server_port
 
     def get_username(self):
         username = console.input(
             "[b]Insert your username[/b] [purple]>>[/purple] ")
+
         # Random color set
         color = self.random_color()
         username_styled = f"<[{color}]{username}[/{color}]>"
@@ -164,29 +175,43 @@ class Chat:
         making all the username available
     }
 
+    var (str) username: Current username
+
     fun receive: Receive messages via socket
     fun write: Where the user will put the message, it will be encrypted
     fun run: Where the code will start
     """
 
-    def __init__(self, chat_api, username_styled) -> None:
+    def __init__(self, chat_api, username_styled, username) -> None:
         self.chat_api = chat_api
         self.username_styled = username_styled
+        self.username = username
 
     def receive(self):
         while True:
-            print(self.chat_api.recv(buffer))
+            try:
+                print(self.chat_api.recv(buffer))
+            except rsa.pkcs1.DecryptionError:
+                pass
 
     def write(self):
-        while True:
-            msg = input()
+        try:
+            while True:
+                msg = input()
 
-            # Remove line up
-            sys.stdout.write("\033[F")
+                # Remove line up
+                sys.stdout.write("\033[F")
 
-            if (len(msg.strip()) > 0):
-                self.chat_api.send(self.username_styled + " " + msg)
-                print("<[green][i]You[/i][/green]> " + msg)
+                if (len(msg.strip()) > 0):
+                    match msg:
+                        case "/nick":
+                            print(self.username)
+                        case _:
+                            self.chat_api.send(self.username_styled + " " + msg)
+
+                            print("<[green][i]You[/i][/green]> " + msg)
+        except KeyboardInterrupt:
+            s.send("/exit".encode())
 
     def run(self):
         receive_process = threading.Thread(target=self.receive)
@@ -229,8 +254,11 @@ class Main:
             else:
                 break
 
+        # Send username to server and wait 0.5s
         self.send_username(self.username)
+        time.sleep(0.5)
 
+        # Get buffer from server
         buffer = self.get_buffer()
 
         # Decompress keys with zlib
@@ -248,11 +276,18 @@ class Main:
         cls()
         self.get_welcome_message()
 
-        chat = Chat(self.chat_api, self.username_styled)
+        chat = Chat(self.chat_api, self.username_styled, self.username)
         chat.run()
 
     def send_username(self, username: str):
         s.send(username.encode())
+        # Confirm: /exit or /accepted
+        confirm = s.recv(1024).decode()
+
+        if confirm != "/accepted":
+            print("[red]ERROR[/red]: Username exist")
+            s.close()
+            quit()
 
     def get_buffer(self):
         return int(s.recv(buffer).decode())
