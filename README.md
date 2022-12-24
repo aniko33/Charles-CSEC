@@ -1,9 +1,9 @@
 <div align="center">
   <h1>Charles CSEC</h1>
 
-  [![Version](https://img.shields.io/badge/Version-1.0-success)](https://github.com/aniko33/Charles-CSEC/releases)
+  [![Version](https://img.shields.io/badge/Version-1.1-success)](https://github.com/aniko33/Charles-CSEC/releases)
   [![Platform](https://img.shields.io/badge/Platform-Windows%2C%20Mac%2C%20Linux-blue)](#)
-  [![Python_version](https://img.shields.io/badge/Python%20version-3.10-blueviolet)](#)
+  [![Python_version](https://img.shields.io/badge/Python%20version-3.8-blueviolet)](#)
 
 <img src="https://user-images.githubusercontent.com/76649588/208201214-add50e06-c0da-4e2d-ba87-d33c797d035b.png">
 </div>
