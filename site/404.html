@@ -1,0 +1,55 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="style.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Anonymous+Pro&display=swap" rel="stylesheet"> 
+    <title>404: You are lost</title>
+</head>
+<body>
+    <div class="effect">
+    <h1 id="texta">404: You are lost?</h1>
+    </div>
+</body>
+</html>
+<style>
+    body{
+        background-color: #101010;
+    }
+    #texta{
+        margin-top: 400px;
+        font-family: 'Anonymous Pro', monospace;
+        color: white;
+        text-align: center;
+        width: 20ch;
+        animation: typing 1.5s steps(30), blink .6s step-end infinite alternate;
+        white-space: nowrap;
+        overflow: hidden;
+        border-right: 1.5px solid;
+        font-size: 2em;
+        margin-bottom: 2%;
+    }
+    @keyframes typing {
+    from {
+      width: 0
+    }
+  }
+      
+  @keyframes blink {
+    50% {
+      border-color: transparent
+    }
+  }
+  .effect{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+</style>
