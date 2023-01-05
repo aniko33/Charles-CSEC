@@ -1,11 +1,11 @@
-from threading import Thread
 import socket
 import rsa
 import zlib
-import sys
 import time
 import json
+import hashlib
 
+from threading import Thread
 from rich import print
 
 # Read config file
@@ -30,12 +30,15 @@ ip: str = config_json["ip"]
 port: int = config_json["port"]
 buffer: int = config_json["buffer"]
 welcome_message: str = config_json["welcome_message"]
+protected_by_password: bool = config_json["protected_by_password"]
+password: str = config_json["password"]
 
 # Create socket
 server = socket.socket()
 
 # Start listing
 server.bind((ip, port))
+print(f"[[green]![/green]] Listing: {ip}:{port}")
 server.listen(32)
 
 
@@ -187,11 +190,7 @@ class Chat:
 
                 # If the length of the message is zero or content is "exit"
                 # Remove client connection
-
-                if msg == b"/exit" or len(msg) <= 0:
-                    self.remove_client(self.client)
-                    break
-
+                
                 self.send_to_clients(msg)
 
             except BaseException:
@@ -199,7 +198,53 @@ class Chat:
                 break
 
     def run(self):
-        API.send_buffer(self.client, buffer)
+        try:
+            username_exist = False
+            password_md5 = hashlib.md5(password.encode()).hexdigest()
+            if protected_by_password:
+                self.client.send("protected".encode())
+                user_passwd = self.client.recv(1024).decode()
+                if user_passwd == password_md5:
+                    self.client.send("/accepted".encode())
+                else:
+                    self.client.send("/exit".encode())
+                    self.client.close()
+
+            else:
+                self.client.send("no_protected".encode())
+
+            nickname = self.client.recv(buffer).decode()
+
+            # Check username existing
+
+            for list_nickname in nicknames:
+                # If username_exist == False
+                if not username_exist:
+                    if nickname == list_nickname:
+                        username_exist = True
+
+            # If username_exist == False
+            if not username_exist:
+                # Send message: "accepted" to client
+                self.client.send("/accepted".encode())
+                print("[[yellow]?[/yellow]] Client connected")
+
+                nicknames.append(nickname)
+                clients.append(self.client)
+
+            else:
+                # Send message: "exit" to client
+                self.client.send("/exit".encode())
+                self.client.close()
+        except:
+            pass
+        
+        try:
+            API.send_buffer(self.client, buffer)
+        
+        except:
+            pass
+        
         time.sleep(0.5)
         send_keys = API.Send_keys(
             self.public_key,
@@ -235,37 +280,10 @@ class Main:
 
         while True:
             client, addr = server.accept()
+            chat = Chat(client, private_key, public_key)
 
-            nickname = client.recv(buffer).decode()
-
-            # Check username existing
-
-            for list_nickname in nicknames:
-                # If username_exist == False
-                if not username_exist:
-                    if nickname == list_nickname:
-                        username_exist = True
-
-            # If username_exist == False
-            if not username_exist:
-                # Send message: "accepted" to client
-                client.send("/accepted".encode())
-                print("[[yellow]?[/yellow]] Client connected")
-
-                nicknames.append(nickname)
-                clients.append(client)
-
-                chat = Chat(client, private_key, public_key)
-
-                multi_conn = Thread(target=chat.run)
-                multi_conn.start()
-            else:
-                # Send message: "exit" to client
-                client.send("/exit".encode())
-                client.close()
-                # Reset username_exist
-                username_exist = False
-
+            multi_conn = Thread(target=chat.run)
+            multi_conn.start()
 
 if __name__ == "__main__":
     Main.run()
