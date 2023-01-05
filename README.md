@@ -16,9 +16,13 @@
 
 - [Configuration (server-side)](#configuration)
 
+- [Commands (client-side)](#commands)
+
 - [Running](#running)
 
 - [How does it work](#how-does-it-work)
+
+- [Showcase](#showcase)
 
 - [Bug report](#bug-report)
 
@@ -33,6 +37,8 @@
 - Easy to read code
 
 - Protected by network sniffer
+
+- File upload with Anonfile
 
 - No trace of your IP
 
@@ -76,16 +82,28 @@ Scroll to the top and edit this part:
     "ip": "127.0.0.1",
     "port": 8889,
     "buffer": 1024,
-    "welcome_message": "[red]welcome to <chat name>[/red]"
+    "welcome_message": "[red]welcome to <chat name>[/red]",
+    "protected_by_password": false,
+    "password": "P4ssw0rd"
 }
 ```
 
-| Variable        | Description                                                                                                                                       |
-| --------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
-| ip              | The IP address where the server will start listening for connections                                                                              |
-| port            | The **connection port**, it is recommended to ***keep it default*** (***8889***)                                                                  |
-| buffer          | The maximum network buffer, changes in this value affects the ***RSA key lenght***                                                                |
-| welcome_message | Welcome message to new users, the colors can be found in the **[Rich documentation](https://rich.readthedocs.io/en/stable/appendix/colors.html)** |
+| Variable              | Description                                                                                                                                       |
+| --------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
+| ip                    | The IP address where the server will start listening for connections                                                                              |
+| port                  | The **connection port**, it is recommended to ***keep it default*** (***8889***)                                                                  |
+| buffer                | The maximum network buffer, changes in this value affects the ***RSA key lenght***                                                                |
+| welcome_message       | Welcome message to new users, the colors can be found in the **[Rich documentation](https://rich.readthedocs.io/en/stable/appendix/colors.html)** |
+| protected_by_password | You can enter true if you want to **protect your chat by password** or you can put false                                                          |
+| password              | Enter the password you want                                                                                                                       |
+
+# Commands
+
+- `/help` show command list
+
+- `/nick` get your nickname
+
+- `/upload <path>` upload file with **Anonfile**, usage: `/upload /home/user/file.txt`
 
 # Running
 
@@ -113,6 +131,12 @@ For more detailed explanation, please, refer to the [RSA Encryption Algorithm Do
 <div align="center">
 <img width="800px" src="https://user-images.githubusercontent.com/76649588/208201163-7e596078-c95d-4902-8d94-e496b60fe315.png" title="" alt="flow.png" data-align="center">
 </div>
+
+# Showcase
+
+  ![showcase](https://user-images.githubusercontent.com/76649588/210849677-16957b3d-879f-43b5-9ef5-debbf88dbb02.png)
+  ![showcase2](https://user-images.githubusercontent.com/76649588/210849685-99112e0d-041f-4edd-b8ba-6701d4695564.png)
+  ![showcase3](https://user-images.githubusercontent.com/76649588/210849687-d2ce8b67-05b0-46f2-9534-475ed5456cc2.png)
 
 # Bug report
 
