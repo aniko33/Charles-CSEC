@@ -2,5 +2,8 @@
     "ip": "127.0.0.1",
     "port": 8889,
     "buffer": 1024,
-    "welcome_message": "[red]welcome to <chat name>[/red]"
+    "welcome_message": "[red]welcome to <chat name>[/red]",
+    "protected_by_password": true,
+    "password": "test"
+
 }
