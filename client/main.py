@@ -6,19 +6,22 @@ import time
 import zlib
 import random
 import threading
+import hashlib
 
 from rich import print
 from rich.console import Console
 from rich.tree import Tree
 from rich.align import Align
 
+from anonfile import AnonFile
+
 global buffer
 
 # Vars
 console = Console()
+anon = AnonFile()
 s = socket.socket()
 buffer = 1024
-
 
 """
 def cls:
@@ -32,7 +35,6 @@ def cls():
 
     else:
         os.system("clear")
-
 
 class API:
     """
@@ -137,10 +139,10 @@ class UI:
     def get_server(self):
 
         server_ip = console.input(
-            "[b]Insert server address[/b] [purple]>>[/purple] ")
+            "[b]Insert server address[/b] :laptop_computer: : ")
 
         server_port = int(
-            console.input("[b]Insert server port[/b] [purple]>>[/purple] "))
+            console.input("[b]Insert server port[/b] : "))
 
         # If server_ip == "local"... change server_ip to 127.0.0.1
 
@@ -152,12 +154,17 @@ class UI:
 
     def get_username(self):
         username = console.input(
-            "[b]Insert your username[/b] [purple]>>[/purple] ")
+            "[b]Insert your username[/b] :ID: : ")
 
         # Random color set
         color = self.random_color()
         username_styled = f"<[{color}]{username}[/{color}]>"
         return username, username_styled
+
+    def get_password(self):
+        password = console.input("[b]Insert password[/b] :locked_with_key: : ")
+        # Encrypt password
+        return hashlib.md5(password.encode()).hexdigest()
 
     def start(self):
         self.banner()
@@ -187,6 +194,14 @@ class Chat:
         self.username_styled = username_styled
         self.username = username
 
+    def help_cmd(self):
+        docs = """
+/help   show the command list
+/nick   show your nickname
+/upload upload your file
+"""
+        print(docs)
+
     def receive(self):
         while True:
             try:
@@ -197,21 +212,40 @@ class Chat:
     def write(self):
         try:
             while True:
-                msg = input()
+                msg = input("")
+                try:
+                    msg_splited = msg.split()
+                
+                    # Remove line up
+                    sys.stdout.write("\033[F")
 
-                # Remove line up
-                sys.stdout.write("\033[F")
+                    if (len(msg_splited[0].strip()) > 0):
+                            if msg_splited[0] == "/help":
+                                self.help_cmd()
+                            
+                            elif msg_splited[0] == "/nick":
+                                print(self.username)
 
-                if (len(msg.strip()) > 0):
-                    match msg:
-                        case "/nick":
-                            print(self.username)
-                        case _:
-                            self.chat_api.send(self.username_styled + " " + msg)
+                            elif msg_splited[0] == "/upload":
+                                try:
+                                    upload = anon.upload(msg_splited[1], progressbar=False)
+                                    print("<[green][i]You[/i][/green]>" + " [b]Upload: [/b] " + str(upload.url.geturl()))
+                                    self.chat_api.send(self.username_styled + " [b]Upload:[/b] " + str(upload.url.geturl()))
+                                except IndexError:
+                                    print("Usage: /upload <path>")
+                                except FileNotFoundError:
+                                    print("File not found")
 
-                            print("<[green][i]You[/i][/green]> " + msg)
+                            elif not msg_splited[0].startswith("/"):
+                                self.chat_api.send(self.username_styled + " " + msg)
+
+                                print("<[green][i]You[/i][/green]> " + msg)
+                except IndexError:
+                    pass
+
         except KeyboardInterrupt:
             s.send("/exit".encode())
+            sys.exit(1)
 
     def run(self):
         receive_process = threading.Thread(target=self.receive)
@@ -234,6 +268,9 @@ class Main:
     def get_welcome_message:
         Get welcome message from server
 
+    def send_password:
+        Send password for login on server 
+
     def run:
         Where the code will start
     """
@@ -242,17 +279,27 @@ class Main:
         pass
 
     def connect(self):
+        ui = UI()    
         while True:
             try:
                 s.connect((self.ip, self.port))
             except ConnectionRefusedError:
                 cls()
                 print("[red]ERROR[/red]: Connection refused")
-                UI = Main.UI()
-                self.ip, self.port = UI.get_server()
-                self.username, self.username_styled = UI.get_username()
+                self.ip, self.port = ui.get_server()
+                self.username, self.username_styled, = ui.get_username()
+                is_protected = s.recv(1024).decode()
+                if is_protected == "protected":
+                    self.password = ui.get_password()
+                    self.send_password(self.password)
+
             else:
                 break
+
+        is_protected = s.recv(1024).decode()
+        if is_protected == "protected":
+            self.password = ui.get_password()
+            self.send_password(self.password)
 
         # Send username to server and wait 0.5s
         self.send_username(self.username)
@@ -289,17 +336,25 @@ class Main:
             s.close()
             quit()
 
+    def send_password(self, password: str):
+        s.send(password.encode())
+        confirm = s.recv(1024).decode()
+        # Confirm: /exit or /accepted
+        if confirm != "/accepted":
+            print("[red]ERROR[/red]: Incorrect password")
+            s.close()
+            quit()
+
     def get_buffer(self):
         return int(s.recv(buffer).decode())
 
     def get_welcome_message(self):
-        print(Align(self.chat_api.recv(1024), "center"))
+        print(Align(self.chat_api.recv(buffer), "center"))
 
     def run(self):
         ui = UI()
         self.ip, self.port, self.username, self.username_styled = ui.start()
         self.connect()
-
 
 if __name__ == "__main__":
     main = Main()
