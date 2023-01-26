@@ -65,7 +65,7 @@ After you ***installed the various dependencies***, now you **can customise your
 
 ### From the compiled version
 
-You have to **go to the [latest releases](https://github.com/aniko33/Charles-CSEC/releases/tag/1.x)** and you have to ***download the client or the server depending*** on what you want to do.
+You have to **go to the [latest releases](https://github.com/aniko33/Charles-CSEC/releases)** and you have to ***download the client or the server depending*** on what you want to do.
 
 #### Important note
 
